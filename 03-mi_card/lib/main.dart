@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.indigo[700],
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
                   fontFamily: 'Source Sans Pro',
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.teal[100],
+                  color: Colors.indigo[100],
                   letterSpacing: 2.5,
                 ),
               ),
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
                 height: 20.0,
                 width: 150.0,
                 child: Divider(
-                  color: Colors.teal[100]
+                  color: Colors.indigo[100]
                 ),
               ),
               Card(
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
                   child: ListTile(
                     leading: Icon(
                       Icons.phone,
-                      color: Colors.teal,
+                      color: Colors.indigo[900],
                     ),
                     title: Text(
                       '+886 900 229 638',
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
                     child: ListTile(
                       leading: Icon(
                         Icons.email,
-                        color: Colors.teal,
+                        color: Colors.indigo[900],
                       ),
                       title: Text(
                         'earl@quadrivium.xyz',
