@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   runApp(MaterialApp(
@@ -19,8 +20,15 @@ class DicePage extends StatefulWidget {
 }
 
 class _DicePageState extends State<DicePage> {
-  int leftDie = 1;
-  int rightDie = 1;
+  int leftDie = Random().nextInt(6) + 1;
+  int rightDie = Random().nextInt(6) + 1;
+
+  void randomize() {
+    setState(() {
+      leftDie = Random().nextInt(6) + 1;
+      rightDie = Random().nextInt(6) + 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +39,7 @@ class _DicePageState extends State<DicePage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextButton(
-                onPressed: () {
-                  if (leftDie < 6) {
-                    setState(() {
-                      leftDie++;
-                    });
-                  } else {
-                    setState(() {
-                      leftDie = 1;
-                    });
-                  }
-                },
+                onPressed: randomize,
                 child: Image.asset('images/dice$leftDie.png'),
               ),
             ),
@@ -50,17 +48,7 @@ class _DicePageState extends State<DicePage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextButton(
-                onPressed: () {
-                  if (rightDie < 6) {
-                    setState(() {
-                      rightDie++;
-                    });
-                  } else {
-                    setState(() {
-                      rightDie = 1;
-                    });
-                  }
-                },
+                onPressed: randomize,
                 child: Image.asset('images/dice$rightDie.png'),
               ),
             ),
@@ -70,3 +58,4 @@ class _DicePageState extends State<DicePage> {
     );
   }
 }
+
