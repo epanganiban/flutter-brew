@@ -9,7 +9,7 @@ class XylophoneApp extends StatelessWidget {
   Expanded bar(int index, Color color) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.all(3.0),
+        margin: EdgeInsets.all(5.0),
         child: ElevatedButton(
           onPressed: () {
             final player = AudioCache();
@@ -19,7 +19,7 @@ class XylophoneApp extends StatelessWidget {
             backgroundColor: color,
             padding: EdgeInsets.all(8.0),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(10),
             ),
           ),
           child: Row(
