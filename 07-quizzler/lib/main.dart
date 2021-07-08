@@ -33,6 +33,43 @@ class _QuizPageState extends State<QuizPage> {
     'Approximately one quarter of human bones are in the feet.',
     'A slug\'s blood is green.',
   ];
+  List<bool> answers = [
+    false,
+    true,
+    true,
+  ];
+
+  void evaluateAnswer(bool response) {
+    setState(() {
+      if (currentIndex < questions.length - 1) {
+        // Increment
+        trackScore(response, currentIndex);
+        currentIndex++;
+      } else if (currentIndex == scoreKeeper.length - 1) {
+        // Reset
+        currentIndex = 0;
+        scoreKeeper = [];
+      } else {
+        // Evaluate answer to last question
+        trackScore(response, currentIndex);
+      }
+    });
+  }
+
+  void trackScore(bool response, int index) {
+    switch (response == answers[index]) {
+      case true:
+        {
+          scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+        }
+        break;
+      case false:
+        {
+          scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+        }
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +99,7 @@ class _QuizPageState extends State<QuizPage> {
             child: TextButton(
               onPressed: () {
                 //The user picked true.
-                setState(() {
-                  if (currentIndex < questions.length-1) {
-                    currentIndex++;
-                  } else {
-                    currentIndex = 0;
-                  }
-                });
+                evaluateAnswer(true);
               },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.green,
@@ -89,13 +120,7 @@ class _QuizPageState extends State<QuizPage> {
             child: TextButton(
               onPressed: () {
                 //The user picked false.
-                setState(() {
-                  if (currentIndex < questions.length-1) {
-                    currentIndex++;
-                  } else {
-                    currentIndex = 0;
-                  }
-                });
+                evaluateAnswer(false);
               },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.red,
