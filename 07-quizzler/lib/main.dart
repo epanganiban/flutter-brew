@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'questionBank.dart';
 
 QuestionBank questionBank = QuestionBank();
@@ -59,6 +60,10 @@ class _QuizPageState extends State<QuizPage> {
                 //The user picked true.
                 setState(() {
                   questionBank.evaluateAnswer(true);
+                  if (questionBank.hasEnded()) {
+                    end(context);
+                    questionBank.reset();
+                  }
                 });
               },
               style: TextButton.styleFrom(
@@ -82,6 +87,10 @@ class _QuizPageState extends State<QuizPage> {
                 //The user picked false.
                 setState(() {
                   questionBank.evaluateAnswer(false);
+                  if (questionBank.hasEnded()) {
+                    end(context);
+                    questionBank.reset();
+                  }
                 });
               },
               style: TextButton.styleFrom(
@@ -103,4 +112,27 @@ class _QuizPageState extends State<QuizPage> {
       ],
     );
   }
+}
+
+void end(BuildContext context) {
+  int correct = questionBank.getCorrectCount();
+  int total = questionBank.getTotalCount();
+
+  Alert(
+    context: context,
+    type: AlertType.info,
+    title: "Congratulations!",
+    desc: "You got $correct correct answers\nout of $total.",
+    buttons: [
+      DialogButton(
+        child: Text(
+          "Try Again",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        color: Color.fromRGBO(0, 179, 134, 1.0),
+        radius: BorderRadius.circular(0.0),
+      ),
+    ],
+  ).show();
 }

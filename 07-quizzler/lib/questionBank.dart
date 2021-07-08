@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'question.dart';
 
 class QuestionBank {
+  bool _hasEnded = false;
   int _currentIndex = 0;
-  List<Widget> _scoreKeeper = [];
+  int _correctAnswers = 0;
+  List<Widget> _scoreKeeper = [
+    Icon(Icons.close, color: Colors.grey.shade900),
+  ];
   List<Question> _questions = [
     Question('Some cats are actually allergic to humans', true),
     Question('You can lead a cow down stairs but not up stairs.', false),
@@ -36,8 +40,7 @@ class QuestionBank {
     if (_currentIndex < _questions.length - 1) {
       _currentIndex++;
     } else if (_scoreKeeper.length > _questions.length) {
-      _currentIndex = 0;
-      _scoreKeeper.clear();
+      _hasEnded = true;
     }
   }
 
@@ -58,6 +61,7 @@ class QuestionBank {
     switch (response == this.getQuestionAnswer()) {
       case true:
         {
+          _correctAnswers++;
           _scoreKeeper.add(Icon(Icons.check, color: Colors.green));
         }
         break;
@@ -71,5 +75,25 @@ class QuestionBank {
 
   List<Widget> getScore() {
     return _scoreKeeper;
+  }
+
+  bool hasEnded() {
+    return _hasEnded;
+  }
+
+  void reset() {
+    _hasEnded = false;
+    _correctAnswers = 0;
+    _currentIndex = 0;
+    _scoreKeeper.clear();
+    _scoreKeeper.add(Icon(Icons.close, color: Colors.grey.shade900));
+  }
+
+  int getCorrectCount() {
+    return _correctAnswers;
+  }
+
+  int getTotalCount() {
+    return _questions.length;
   }
 }
