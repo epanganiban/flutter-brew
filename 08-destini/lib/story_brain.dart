@@ -1,7 +1,7 @@
 import 'story.dart';
 
 class StoryBrain {
-  int storyNumber = 0;
+  int _storyNumber = 0;
   List<Story> _storyData = [
     Story(
         storyTitle:
@@ -35,27 +35,27 @@ class StoryBrain {
   ];
 
   String getStory() {
-    return _storyData[storyNumber].storyTitle;
+    return _storyData[_storyNumber].storyTitle;
   }
 
   String getChoice1() {
-    return _storyData[storyNumber].choice1;
+    return _storyData[_storyNumber].choice1;
   }
 
   String getChoice2() {
-    return _storyData[storyNumber].choice2;
+    return _storyData[_storyNumber].choice2;
   }
 
   void nextStory(int choiceNumber) {
-    switch(storyNumber) {
+    switch(_storyNumber) {
       case 0: {
         switch(choiceNumber) {
           case 1: {
-            storyNumber = 2;
+            _storyNumber = 2;
           }
           break;
           case 2: {
-            storyNumber = 1;
+            _storyNumber = 1;
           }
           break;
         }
@@ -65,11 +65,11 @@ class StoryBrain {
       case 1: {
         switch(choiceNumber) {
           case 1: {
-            storyNumber = 2;
+            _storyNumber = 2;
           }
           break;
           case 2: {
-            storyNumber = 3;
+            _storyNumber = 3;
           }
           break;
         }
@@ -79,11 +79,11 @@ class StoryBrain {
       case 2: {
         switch(choiceNumber) {
           case 1: {
-            storyNumber = 5;
+            _storyNumber = 5;
           }
           break;
           case 2: {
-            storyNumber = 4;
+            _storyNumber = 4;
           }
           break;
         }
@@ -98,10 +98,10 @@ class StoryBrain {
   }
 
   void restart() {
-    storyNumber = 0;
+    _storyNumber = 0;
+  }
+
+  bool buttonShouldBeVisible() {
+    return _storyNumber < 3;
   }
 }
-
-//TODO: Step 25 - Change the storyNumber property into a private property so that only story_brain.dart has access to it. You can do this by right clicking on the name (storyNumber) and selecting Refactor -> Rename to make the change across all the places where it's used.
-
-//TODO: Step 27 - Create a method called buttonShouldBeVisible() which checks to see if storyNumber is 0 or 1 or 2 (when both buttons should show choices) and return true if that is the case, else it should return false.
