@@ -29,41 +29,6 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  int currentIndex = 0;
-  List<Widget> scoreKeeper = [];
-
-  void evaluateAnswer(bool response) {
-    setState(() {
-      if (currentIndex < questionBank.getNumberOfQuestions() - 1) {
-        // Increment
-        trackScore(response, currentIndex);
-        currentIndex++;
-      } else if (currentIndex == scoreKeeper.length - 1) {
-        // Reset
-        currentIndex = 0;
-        scoreKeeper = [];
-      } else {
-        // Evaluate answer to last question
-        trackScore(response, currentIndex);
-      }
-    });
-  }
-
-  void trackScore(bool response, int index) {
-    switch (response == questionBank.getQuestionAnswer(currentIndex)) {
-      case true:
-        {
-          scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-        }
-        break;
-      case false:
-        {
-          scoreKeeper.add(Icon(Icons.close, color: Colors.red));
-        }
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -76,7 +41,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questionBank.getQuestionText(currentIndex),
+                questionBank.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -92,7 +57,9 @@ class _QuizPageState extends State<QuizPage> {
             child: TextButton(
               onPressed: () {
                 //The user picked true.
-                evaluateAnswer(true);
+                setState(() {
+                  questionBank.evaluateAnswer(true);
+                });
               },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.green,
@@ -113,7 +80,9 @@ class _QuizPageState extends State<QuizPage> {
             child: TextButton(
               onPressed: () {
                 //The user picked false.
-                evaluateAnswer(false);
+                setState(() {
+                  questionBank.evaluateAnswer(false);
+                });
               },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.red,
@@ -129,7 +98,7 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         Row(
-          children: scoreKeeper,
+          children: questionBank.getScore(),
         ),
       ],
     );
