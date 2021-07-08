@@ -6,6 +6,7 @@ void main() => runApp(Destini());
 class Destini extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       home: StoryPage(),
     );
@@ -48,14 +49,17 @@ class _StoryPageState extends State<StoryPage> {
               ),
               Expanded(
                 flex: 2,
-                child: FlatButton(
+                child: TextButton(
                   onPressed: () {
                     //Choice 1 made by user.
                     setState(() {
                       storyBrain.nextStory(1);
                     });
                   },
-                  color: Colors.red,
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    primary: Colors.white,
+                  ),
                   child: Text(
                     storyBrain.getChoice1(),
                     style: TextStyle(
@@ -71,14 +75,17 @@ class _StoryPageState extends State<StoryPage> {
                 visible: storyBrain.buttonShouldBeVisible(),
                 child: Expanded(
                   flex: 2,
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: () {
                       //Choice 2 made by user.
                       setState(() {
                         storyBrain.nextStory(2);
                       });
                     },
-                    color: Colors.blue,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      primary: Colors.white,
+                    ),
                     child: Text(
                       storyBrain.getChoice2(),
                       style: TextStyle(
