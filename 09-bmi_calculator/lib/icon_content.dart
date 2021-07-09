@@ -21,7 +21,7 @@ class IconContent extends StatelessWidget {
         ),
         Text(
           this.iconText,
-          style: labelTextStyle,
+          style: kLabelTextStyle,
         ),
       ],
     );
