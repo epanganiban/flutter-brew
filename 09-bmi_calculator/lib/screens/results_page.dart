@@ -4,9 +4,24 @@ import '../constants.dart';
 import '../components/bottom_button.dart';
 import '../components/reusable_card.dart';
 
+class ResultArguments {
+  final String bmiResult;
+  final String resultText;
+  final String interpretation;
+
+  ResultArguments({
+    this.bmiResult,
+    this.resultText,
+    this.interpretation,
+  });
+}
+
 class ResultsPage extends StatelessWidget {
+  static const routeName = '/results';
+
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context).settings.arguments as ResultArguments;
     return Scaffold(
       appBar: AppBar(
         title: Text('BMI CALCULATOR'),
@@ -17,6 +32,8 @@ class ResultsPage extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
+              padding: EdgeInsets.all(15.0),
+              alignment: Alignment.bottomLeft,
               child: Text(
                 'Your Result',
                 style: kTitleTextStyle,
@@ -31,15 +48,15 @@ class ResultsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Normal',
+                    args.resultText.toUpperCase(),
                     style: kResultTextStyle,
                   ),
                   Text(
-                    '18.3',
+                    args.bmiResult,
                     style: kBMITextStyle,
                   ),
                   Text(
-                    'Your BMI result is quite low, you should eat more',
+                    args.interpretation,
                     style: kBodyTextStyle,
                     textAlign: TextAlign.center,
                   ),
@@ -49,7 +66,7 @@ class ResultsPage extends StatelessWidget {
             flex: 5,
           ),
           BottomButton(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
             buttonTitle: 'RE-CALCULATE',
