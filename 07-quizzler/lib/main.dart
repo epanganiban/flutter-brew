@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'questionBank.dart';
+import 'question_bank.dart';
 
 QuestionBank questionBank = QuestionBank();
 
