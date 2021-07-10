@@ -1,0 +1,6 @@
+package xyz.quadrivium.clima
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
