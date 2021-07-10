@@ -11,23 +11,27 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  double? latitude;
+  double? longitude;
+
   @override
   void initState() {
     super.initState();
-    // getLocation();
-    getData();
+    getLocation();
   }
 
   void getLocation() async {
     Location location = Location();
     await location.getCurrentLocation();
-    print('Lat: ' + location.latitude.toString());
-    print('Lon: ' + location.longitude.toString());
+    this.latitude = location.latitude;
+    this.longitude = location.longitude;
+
+    getData();
   }
 
   void getData() async {
     String apiKey = dotenv.env['OPENWEATHER_API_KEY'] ?? '';
-    String url = 'https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=$apiKey';
+    String url = 'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey';
 
     http.Response response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
