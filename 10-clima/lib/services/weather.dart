@@ -46,4 +46,12 @@ class WeatherModel {
 
     return await networkHelper.getData();
   }
+
+  Future<dynamic> getCityWeather(String cityName) async {
+    String apiKey = dotenv.env['OPENWEATHER_API_KEY'] ?? '';
+    String url = '$openWeatherMapUrl?q=$cityName&appid=$apiKey&units=metric';
+    NetworkHelper networkHelper = NetworkHelper(url);
+
+    return await networkHelper.getData();
+  }
 }
