@@ -12,7 +12,7 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String quote = 'USD';
-  int rate = 0;
+  List<RateCard> cards = [];
 
   @override
   void initState() {
@@ -21,18 +21,32 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 
   void updateUI(String selectedCurrency) async {
-    var exchangeRateData;
-    // var exchangeRateData = await ExchangeRate(quote: selectedCurrency).getExchangeRate();
-
+    List<RateCard> buffer = await generateCards(selectedCurrency);
     setState(() {
       quote = selectedCurrency;
+      cards = buffer;
+    });
+  }
+
+  Future<List<RateCard>> generateCards(String selectedCurrency) async {
+    List<RateCard> cards = [];
+    for (String base in cryptoList) {
+      // var exchangeRateData = await ExchangeRate(quote: selectedCurrency).getExchangeRate();
+      var exchangeRateData;
+      String rate;
+
       if (exchangeRateData != null) {
         double buffer = exchangeRateData['rate'];
-        rate = buffer.toInt();
+        rate = buffer.toInt().toString();
       } else {
-        rate = 0;
+        rate = '?';
       }
-    });
+
+      cards.add(
+          RateCard(base: base, quote: selectedCurrency, rate: rate)
+      );
+    }
+    return cards;
   }
 
   DropdownButton androidDropdown() {
@@ -85,26 +99,9 @@ class _PriceScreenState extends State<PriceScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-            child: Card(
-              color: Colors.lightBlueAccent,
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
-                child: Text(
-                  '1 BTC = $rate $quote',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: cards,
           ),
           Container(
             height: 150.0,
@@ -114,6 +111,43 @@ class _PriceScreenState extends State<PriceScreen> {
             child: Platform.isIOS ? iOSPicker() : androidDropdown(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class RateCard extends StatelessWidget {
+  RateCard({
+    required this.base,
+    required this.quote,
+    required this.rate,
+  });
+
+  final String base;
+  final String quote;
+  final String rate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
+      child: Card(
+        color: Colors.lightBlueAccent,
+        elevation: 5.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+          child: Text(
+            '1 $base = $rate $quote',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
     );
   }
