@@ -2,10 +2,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:bitcoin_ticker/services/networking.dart';
 
 class ExchangeRate {
-  String? quote;
   String base;
+  String quote;
 
-  ExchangeRate({required this.quote, this.base = 'BTC'});
+  ExchangeRate({required this.base, required this.quote});
 
   Future<dynamic> getExchangeRate() async {
     String apiKey = dotenv.env['COIN_API_KEY'] ?? '';

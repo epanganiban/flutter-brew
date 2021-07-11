@@ -31,8 +31,11 @@ class _PriceScreenState extends State<PriceScreen> {
   Future<List<RateCard>> generateCards(String selectedCurrency) async {
     List<RateCard> cards = [];
     for (String base in cryptoList) {
-      // var exchangeRateData = await ExchangeRate(quote: selectedCurrency).getExchangeRate();
-      var exchangeRateData;
+      var exchangeRateData = await ExchangeRate(
+        base: base,
+        quote: selectedCurrency,
+      ).getExchangeRate();
+      // var exchangeRateData;
       String rate;
 
       if (exchangeRateData != null) {
@@ -42,9 +45,7 @@ class _PriceScreenState extends State<PriceScreen> {
         rate = '?';
       }
 
-      cards.add(
-          RateCard(base: base, quote: selectedCurrency, rate: rate)
-      );
+      cards.add(RateCard(base: base, quote: selectedCurrency, rate: rate));
     }
     return cards;
   }
