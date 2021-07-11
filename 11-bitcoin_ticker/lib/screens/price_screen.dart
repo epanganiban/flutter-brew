@@ -21,15 +21,17 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 
   void updateUI(String selectedCurrency) async {
-    var exchangeRateData = await ExchangeRate(quote: selectedCurrency).getExchangeRate();
+    var exchangeRateData;
+    // var exchangeRateData = await ExchangeRate(quote: selectedCurrency).getExchangeRate();
 
     setState(() {
       quote = selectedCurrency;
-      if (exchangeRateData == null) {
+      if (exchangeRateData != null) {
+        double buffer = exchangeRateData['rate'];
+        rate = buffer.toInt();
+      } else {
         rate = 0;
       }
-      double buffer = exchangeRateData['rate'];
-      rate = buffer.toInt();
     });
   }
 
