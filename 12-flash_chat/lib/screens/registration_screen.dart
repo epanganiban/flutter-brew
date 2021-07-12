@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flash_chat/components/rounded_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const routeName = '/signup';
@@ -71,9 +72,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     email: email!,
                     password: password!,
                   );
-                  if (newUser != null) {
-                    Navigator.pushNamed(context, ChatScreen.routeName);
-                  }
+                  Navigator.pushNamed(context, ChatScreen.routeName);
                 } catch(e) {
                   print(e);
                 }
