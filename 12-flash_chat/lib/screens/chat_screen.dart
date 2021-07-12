@@ -23,6 +23,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     getCurrentUser();
+    messagesStream();
   }
 
   void getCurrentUser() {
@@ -30,24 +31,16 @@ class _ChatScreenState extends State<ChatScreen> {
       final user = _auth.currentUser;
       if (user != null) {
         loggedInUser = user;
-        print(loggedInUser!.email);
       }
     } catch (e) {
       print(e);
     }
   }
 
-  // void getMessages() async {
-  //   final messages = await _firestore.collection('messages').get();
-  //   for (var message in messages.docs) {
-  //     print(message.data());
-  //   }
-  // }
-
   void messagesStream() async {
     await for (var snapshot in _firestore.collection('messages').snapshots()) {
-      for (var document in snapshot.docs) {
-        print(document.data());
+      for (var _ in snapshot.docs) {
+        // Do nothing...
       }
     }
   }
@@ -61,10 +54,8 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                // _auth.signOut();
-                // Navigator.pop(context);
-                // getMessages();
-                messagesStream();
+                _auth.signOut();
+                Navigator.pop(context);
               }),
         ],
         title: Text('⚡️Chat'),
@@ -98,6 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       _firestore.collection('messages').add({
                         'sender': loggedInUser!.email,
                         'text': messageText,
+                        'ts': FieldValue.serverTimestamp(),
                       });
                       messageTextController.clear();
                     },
@@ -125,7 +117,13 @@ class MessagesStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: firestore.collection('messages').snapshots(),
+      stream: firestore
+          .collection('messages')
+          .orderBy(
+            'ts',
+            descending: true,
+          )
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -149,6 +147,7 @@ class MessagesStream extends StatelessWidget {
         }
         return Expanded(
           child: ListView(
+            reverse: true,
             padding: EdgeInsets.symmetric(
               horizontal: 10.0,
               vertical: 20.0,
@@ -160,7 +159,6 @@ class MessagesStream extends StatelessWidget {
     );
   }
 }
-
 
 class MessageBubble extends StatelessWidget {
   final String sender;
@@ -190,7 +188,14 @@ class MessageBubble extends StatelessWidget {
           Material(
             elevation: 5.0,
             color: isLoggedInUser ? Colors.lightBlueAccent : Colors.blueAccent,
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.only(
+              topRight:
+                  isLoggedInUser ? Radius.circular(0.0) : Radius.circular(30.0),
+              topLeft:
+                  isLoggedInUser ? Radius.circular(30.0) : Radius.circular(0.0),
+              bottomLeft: Radius.circular(30.0),
+              bottomRight: Radius.circular(30.0),
+            ),
             child: Padding(
               padding: EdgeInsets.symmetric(
                 vertical: 10.0,
