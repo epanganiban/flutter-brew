@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1037291415211",
+    "project_id": "flash-chat-bf14a",
+    "storage_bucket": "flash-chat-bf14a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037291415211:android:5c1e50cdaf9b2314ff39ee",
+        "android_client_info": {
+          "package_name": "xyz.quadrivium.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037291415211-joh89pjndkucs4473qjd2ni35mg8skfl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcKjGNY7mtwZsmCFXDv9YlSw7eYhIJCGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037291415211-joh89pjndkucs4473qjd2ni35mg8skfl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
