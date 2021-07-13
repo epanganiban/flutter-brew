@@ -71,20 +71,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: TasksList(
-                builder:   (context, index) {
-                  return TaskTile(
-                    tasks[index].name!,
-                    isChecked: tasks[index].isDone,
-                    onChanged: (newValue) {
-                      setState(() {
-                        tasks[index].isDone = newValue!;
-                      });
-                    },
-                  );
-                },
-                itemCount: tasks.length,
-              ),
+              child: TasksList(tasks),
             ),
           ),
         ],
@@ -95,8 +82,18 @@ class _TasksScreenState extends State<TasksScreen> {
             context: context,
             builder: (context) => SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen(),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: AddTaskScreen(
+                    (newTaskTitle) {
+                      setState(() {
+                        tasks.add(
+                          Task(name: newTaskTitle)
+                        );
+                      });
+                      Navigator.pop(context);
+                    }
+                ),
               ),
             ),
           );
