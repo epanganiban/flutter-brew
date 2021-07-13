@@ -4,8 +4,12 @@ class TaskTile extends StatelessWidget {
   final String taskTitle;
   final bool isChecked;
   final Function(bool?)? onChanged;
+  final void Function()? onLongPress;
 
-  TaskTile(this.taskTitle, {required this.isChecked, required this.onChanged});
+  TaskTile(this.taskTitle,
+      {required this.isChecked,
+      required this.onChanged,
+      required this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +24,8 @@ class TaskTile extends StatelessWidget {
         activeColor: Colors.lightBlueAccent,
         value: isChecked,
         onChanged: onChanged,
-      )
+      ),
+      onLongPress: onLongPress,
     );
   }
 }
